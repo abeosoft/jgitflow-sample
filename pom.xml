@@ -1,0 +1,94 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.abeosoft.microservices.jgitflow</groupId>
+	<artifactId>jgitflow-sample</artifactId>
+	<version>1.0.1-SNAPSHOT</version>
+	<name>JGIT-Flow Proof Of Concept</name>
+	<description>JGIT-Flow Sample: implementing git-flow branching model</description>
+
+	<properties>
+		<java.version>1.8</java.version>
+	</properties>
+
+	<scm>
+		<url>https://github.com/abeosoft/jgitflow-sample.git</url>
+		<connection>scm:git@github.com:abeosoft/jgitflow-sample.git</connection>
+		<developerConnection>scm:git@github.com:abeosoft/jgitflow-sample.git</developerConnection>
+	</scm>
+
+	<distributionManagement>
+		<repository>
+			<id>internal</id>
+			<name>Local Artifactory Repository</name>
+			<url>http://localhost:8081/artifactory/internal</url>
+		</repository>
+	</distributionManagement>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<!-- ### ============================================== ### -->
+				<!-- ### Maven Compiler plugin ### -->
+				<!-- ### ============================================== ### -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.5.1</version>
+					<configuration>
+						<source>${java.version}</source>
+						<target>${java.version}</target>
+					</configuration>
+				</plugin>
+
+				<!-- ### ============================================== ### -->
+				<!-- ### JGit GitFlow plugin ### -->
+				<!-- ### ============================================== ### -->
+				<plugin>
+					<groupId>external.atlassian.jgitflow</groupId>
+					<artifactId>jgitflow-maven-plugin</artifactId>
+					<version>1.0-m5.1</version>
+					<configuration>
+						<!-- Append feature name to version of feature branch -->
+						<enableFeatureVersions>false</enableFeatureVersions>
+
+						<!-- Enable this to push to origin using SSH keys -->
+						<enableSshAgent>true</enableSshAgent>
+
+						<!-- Keep your maven submodules at the same version as the parent POM -->
+						<autoVersionSubmodules>true</autoVersionSubmodules>
+
+						<!-- Prevents deployments from dev workstations so that they can be 
+							done by a CI server -->
+						<noDeploy>false</noDeploy>
+
+						<!-- Pushing in-development features to origin allows all devs to 
+							see what each other are working on -->
+						<pushFeatures>true</pushFeatures>
+
+						<!-- Hot Fixes should be pushed to origin as well so that any dev 
+							can pick them up -->
+						<pushHotfixes>true</pushHotfixes>
+
+						<!-- This allows the CI server (e.g. Jenkins) to automatically push 
+							new releases to origin; you can then either manually deploy them or, if you 
+							are doing Continuous Deployments, auto-deploy them to prod -->
+						<pushReleases>true</pushReleases>
+						
+						<!-- Suffix to append to versions on the release branch -->
+						<releaseBranchVersionSuffix>RELEASE</releaseBranchVersionSuffix>
+							
+						<flowInitContext>
+							<masterBranchName>master</masterBranchName>
+							<developBranchName>develop</developBranchName>
+							<featureBranchPrefix>feature-</featureBranchPrefix>
+							<releaseBranchPrefix>release-</releaseBranchPrefix>
+							<hotfixBranchPrefix>hotfix-</hotfixBranchPrefix>
+							<versionTagPrefix>${project.artifactId}-</versionTagPrefix>
+						</flowInitContext>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+</project>
