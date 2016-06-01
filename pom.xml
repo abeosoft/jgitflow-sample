@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.abeosoft.microservices.jgitflow</groupId>
 	<artifactId>jgitflow-sample</artifactId>
-	<version>1.0.1</version>
+	<version>1.0.2-SNAPSHOT</version>
 	<name>JGIT-Flow Proof Of Concept</name>
 	<description>JGIT-Flow Sample: implementing git-flow branching model</description>
 
